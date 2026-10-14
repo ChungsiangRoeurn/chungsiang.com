@@ -1,25 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import WindowPanel from '../components/WindowPanel.astro';
+import { aboutContent, aboutPillars, aboutBackground, education, employmentHistory, skillGroups } from '../data/site';
 ---
 
-<Layout title="About — Chungsiang Roeurn" showHeader={false}>
+<Layout title={aboutContent.title}>
 	<section class="page-shell">
-		<a class="back-link" href="/">← Back to overview</a>
-		<div class="header-box role-header-box">
-			<p class="eyebrow">About me</p>
-			<h1 class="section-title">Zero to Fullstack</h1>
-			<p class="description">Developer building dependable products across web, APIs, desktop, and Telegram integrations.</p>
-		</div>
-		<div class="details-box mt-3">
-			<p class="eyebrow">What I bring</p>
-			<div class="about-pillars mt-8">
-				<div><span class="eyebrow">01</span><h2 class="mt-3 text-xl font-medium">Product interfaces</h2><p class="description mt-3 text-sm leading-6">Responsive web and mobile experiences built with React, Next.js, TypeScript, and a careful eye for clear interaction.</p></div>
-				<div><span class="eyebrow">02</span><h2 class="mt-3 text-xl font-medium">Connected systems</h2><p class="description mt-3 text-sm leading-6">Frontend work that connects cleanly to backend APIs, databases, Telegram Mini Apps, and real product workflows.</p></div>
-				<div><span class="eyebrow">03</span><h2 class="mt-3 text-xl font-medium">Across platforms</h2><p class="description mt-3 text-sm leading-6">A practical path through web, mobile, backend, and current desktop application development.</p></div>
-			</div>
-			<div class="about-background mt-10 border-t border-neutral-200 pt-7 dark:border-neutral-800"><p class="eyebrow">Background</p><p class="description mt-3 max-w-3xl text-sm leading-7">I studied Computer Science at the Royal University of Phnom Penh and began my professional path at dreamsLAB. Since then, I have worked across web, mobile, APIs, and product systems, with my current focus on frontend desktop development at VPS.Start Technology.</p></div>
-			<div class="mt-8 border-t border-neutral-200 pt-7 dark:border-neutral-800"><p class="eyebrow">Education</p><div class="about-education mt-4"><div><span class="education-index">01</span><div class="education-card-content"><strong>Bachelor of Science in Computer Science</strong><span>Royal University of Phnom Penh</span><small>03-2023 — 03-2026 · Completed</small></div></div><div><span class="education-index">02</span><div class="education-card-content"><strong>Diploma of English Program</strong><span>Paññāsāstra University of Cambodia</span><small>02-2023 — 06-2024 · Completed</small></div></div></div></div>
-			<div class="mt-8 border-t border-neutral-200 pt-5 dark:border-neutral-800"><p class="eyebrow">Core stack</p><p class="meta mt-3">React · Next.js · TypeScript · Astro · React Native · GraphQL · PostgreSQL · MySQL · SQLite · C# · WPF</p></div>
+		<a class="back-link" href="/">Back to overview</a>
+		<header class="page-heading">
+			<p class="eyebrow">{aboutContent.eyebrow}</p>
+			<h1 class="page-title">{aboutContent.headline}</h1>
+			<p class="page-description">{aboutContent.description}</p>
+		</header>
+
+		<div class="about-grid">
+			<WindowPanel filename="about-overview.txt">
+				<p class="eyebrow">{aboutContent.bringHeading}</p>
+				<div class="about-pillars">
+					{aboutPillars.map((pillar) => <article class="about-pillar"><span>{pillar.number}</span><h2>{pillar.title}</h2><p>{pillar.description}</p></article>)}
+				</div>
+				<div class="about-divider"></div>
+				<p class="eyebrow">{aboutContent.backgroundHeading}</p>
+				<p class="background-copy">{aboutBackground}</p>
+			</WindowPanel>
+
+			<WindowPanel filename="education.html">
+				<p class="eyebrow">{aboutContent.educationHeading}</p>
+				<div class="education-list">
+					{education.map((item, index) => <article class="education-entry">
+						<span class="education-index">0{index + 1}</span>
+						<div class="education-main"><h2>{item.school}</h2><p>{item.degree}</p></div>
+						<div class="education-meta"><span>{item.period}</span><span class="education-status">{item.status}</span></div>
+					</article>)}
+				</div>
+			</WindowPanel>
+
+			<WindowPanel filename="experience.html">
+				<p class="eyebrow">{aboutContent.experienceHeading}</p>
+				<div class="about-two">
+					{employmentHistory.map((job) => <article class="about-item">
+						<p class="item-period">{job.period}</p>
+						<h2 class="item-title">{job.company}</h2>
+						<div class="role-list">{job.roles.map((role) => <div class="role-row"><div class="role-heading"><strong>{role.title}</strong><span class="role-date">{role.date}</span></div><p>{role.text}</p></div>)}</div>
+					</article>)}
+				</div>
+			</WindowPanel>
+
+			<WindowPanel filename="toolkit.html">
+				<p class="eyebrow">{aboutContent.stackHeading}</p>
+				<div class="stack-grid">
+					{skillGroups.map((group) => <section><p class="eyebrow">{group.label}</p><div>{group.items.map((skill) => <div class="skill"><span class="skill-name">{skill.name}</span><span class="skill-bar"><i style={`width:${skill.level}%`}></i></span></div>)}</div></section>)}
+				</div>
+			</WindowPanel>
 		</div>
 	</section>
 </Layout>

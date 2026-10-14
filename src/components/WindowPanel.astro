@@ -1,0 +1,17 @@
+---
+interface Props {
+	filename: string;
+}
+
+const { filename } = Astro.props;
+---
+
+<section class="window-panel">
+	<div class="window-panel-bar" aria-hidden="true">
+		<span class="window-panel-dots"><i></i><i></i></span>
+		<span>{filename}</span>
+	</div>
+	<div class="window-panel-content">
+		<slot />
+	</div>
+</section>

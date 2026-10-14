@@ -1,58 +1,53 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const projects = [
-	{ name: 'E-commerce mobile app', type: 'Mobile product', year: '2025 — now', description: 'Maintaining an e-commerce mobile application and its connected system, with a focus on reliable product workflows.', stack: 'React Native · APIs · GraphQL', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80', href: 'https://github.com/ChungsiangRoeurn' },
-	{ name: 'Telegram Mini App', type: 'Product integration', year: '2025', description: 'A Telegram-based product experience connected to APIs, user flows, and external service integrations.', stack: 'React · TypeScript · Telegram API', image: 'https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=1200&q=80', href: 'https://github.com/ChungsiangRoeurn' },
-	{ name: 'E-commerce platform', type: 'Web platform', year: '2025', description: 'A complete platform with an admin dashboard, storefront website, and Telegram Mini App integration.', stack: 'React · Next.js · TypeScript · APIs', image: 'https://images.unsplash.com/photo-1556742111-a301076d9d18?auto=format&fit=crop&w=1200&q=80', href: 'https://github.com/ChungsiangRoeurn' },
-];
-
-const toolkitGroups = [
-	{ label: 'Frontend', tools: ['React.js', 'Next.js', 'TypeScript', 'JavaScript', 'Astro.js', 'Tailwind CSS', 'ShadCN UI'] },
-	{ label: 'Mobile & desktop', tools: ['React Native', 'Expo', 'C#', 'WPF', 'XAML', 'MVVM'] },
-	{ label: 'Backend & APIs', tools: ['REST APIs', 'GraphQL', 'Apollo Client', 'API integration', 'JSON'] },
-	{ label: 'Data', tools: ['PostgreSQL', 'MySQL', 'SQLite', 'Supabase'] },
-	{ label: 'Workflow', tools: ['Git', 'GitHub', 'Postman', 'VS Code', 'Figma', 'ClickUp'] },
-];
-
-const content = {
-	role: { eyebrow: 'Role', title: 'Web, backend', accent: '& desktop.', description: 'Building clear products from interface to API and application.' },
-	experience: { eyebrow: 'Experience', title: 'Web, mobile,', accent: 'and product work.', description: 'A growing path through internships, freelance teams, mobile products, and API-driven applications.' },
-	projects: { eyebrow: 'Projects', title: 'A few things', accent: 'I have built.', description: 'Selected project ideas with a focus on useful interfaces, thoughtful systems, and clear outcomes.' },
-	toolkit: { eyebrow: 'Toolkit', title: 'The tools behind', accent: 'the work.', description: 'A practical toolkit for building web, mobile, API, and desktop products.' },
-};
-
-const detailLabels = {
-	role: 'Career path',
-	experience: 'Work history',
-	projects: 'Selected work',
-	toolkit: 'Tools I use',
-};
+import WindowPanel from '../components/WindowPanel.astro';
+import { sectionContent, roleIntroduction, roleHighlights, employmentHistory, projects, toolkitGroups } from '../data/site';
 
 export function getStaticPaths() {
-	return ['role', 'experience', 'projects', 'toolkit'].map((section) => ({ params: { section }, props: { section } }));
+	return Object.keys(sectionContent).map((section) => ({ params: { section }, props: { section } }));
 }
 
 const { section } = Astro.props;
-const page = content[section as keyof typeof content];
+const page = sectionContent[section as keyof typeof sectionContent];
 ---
 
-<Layout title={`${page.eyebrow} — Chungsiang Roeurn`} showHeader={false}>
+<Layout title={`${page.eyebrow} — Chungsiang Roeurn`}>
 	<section class="page-shell">
-		<a class="back-link" href="/">← Back to overview</a>
-		<div class="header-box role-header-box">
+		<a class="back-link" href="/">Back to overview</a>
+		<header class="page-heading">
 			<p class="eyebrow">{page.eyebrow}</p>
-			<h1 class="section-title">{page.title}<br /><em>{page.accent}</em></h1>
-			<p class="description">{page.description}</p>
-		</div>
-		<div class="details-box mt-3">
-			<p class="eyebrow">{detailLabels[section as keyof typeof detailLabels]}</p>
-			<div class="mt-8">
-				{section === 'role' && <div class="role-highlights"><p class="role-intro">I work across the product surface: shaping responsive interfaces, building backend APIs, and creating software that stays understandable as it grows.</p><div class="role-highlight-grid"><div><strong>Frontend web</strong><p>React, Next.js, TypeScript, Astro, Tailwind CSS, and responsive UI systems.</p></div><div><strong>Backend APIs</strong><p>REST and GraphQL APIs, Apollo Client, database integration, and service workflows.</p></div><div><strong>Desktop & Telegram</strong><p>Desktop application development plus Telegram Mini App and external service integrations.</p></div></div></div>}
-				{section === 'experience' && <div class="experience-groups"><div class="experience-group"><div class="experience-company"><strong>VPS.Start Technology</strong><span>Jun 2026 — now</span></div><div class="detail-list"><div class="detail-item"><span>Jun 2026 — now</span><strong>Frontend desktop developer</strong><p>Building and improving desktop applications with a focus on clear workflows, reliable behavior, and maintainable systems.</p></div></div></div><div class="experience-group"><div class="experience-company"><strong>Nano Sound Cambodia</strong><span>Nov 2025 — Mar 2026</span></div><div class="detail-list"><div class="detail-item"><span>4 months</span><strong>Junior Mobile Developer</strong><p>Maintained an e-commerce mobile application and system, developed Telegram Mini Apps, integrated GraphQL APIs, and explored microservices and ERP workflows.</p></div></div></div><div class="experience-group"><div class="experience-company"><strong>dreamsLAB</strong><span>Aug 2024 — Jul 2025</span></div><div class="detail-list"><div class="detail-item"><span>Aug 2024 — 11 Nov 2024</span><strong>Frontend Developer Intern</strong><p>Learned web development fundamentals, version control, CMS platforms, and collaborative delivery on company projects.</p></div><div class="detail-item"><span>Nov 2024 — Jul 2025</span><strong>Web Developer</strong><p>Contributed to the development and maintenance of real company projects using modern web tools and frontend practices.</p></div></div></div></div>}
-				{section === 'projects' && <div class="grid gap-4 sm:grid-cols-2">{projects.map((project) => <a class="project-card" href={project.href} target="_blank" rel="noreferrer"><div class="project-card-image"><img src={project.image} alt={`${project.name} project demo`} loading="lazy" /></div><div class="project-card-content"><div class="project-card-kicker"><span>{project.type}</span><span>{project.year}</span></div><strong class="project-card-title">{project.name}</strong><p class="project-card-description">{project.description}</p><p class="project-card-stack">{project.stack}</p></div></a>)}</div>}
-				{section === 'toolkit' && <div class="toolkit-groups">{toolkitGroups.map((group) => <div class="toolkit-group"><p class="eyebrow">{group.label}</p><div class="mt-3 flex flex-wrap gap-2">{group.tools.map((tool) => <span class="tool-chip">{tool}</span>)}</div></div>)}</div>}
-			</div>
-		</div>
+			<h1 class="page-title">{page.title}<br /><em>{page.accent}</em></h1>
+			<p class="page-description">{page.description}</p>
+		</header>
+
+		{section === 'role' && <WindowPanel filename="role-overview.html">
+			<p class="role-intro">{roleIntroduction}</p>
+			<div class="role-highlight-grid">{roleHighlights.map((highlight) => <div><strong>{highlight.title}</strong><p>{highlight.description}</p></div>)}</div>
+		</WindowPanel>}
+
+		{section === 'experience' && <WindowPanel filename="experience-history.html">
+			<div class="experience-groups">{employmentHistory.map((job) => <div class="experience-group">
+				<div class="experience-company"><strong>{job.company}</strong><span>{job.period}</span></div>
+				<div class="detail-list">{job.roles.map((role) => <div class="detail-item"><span>{role.date}</span><strong>{role.title}</strong><p>{role.text}</p></div>)}</div>
+			</div>)}</div>
+		</WindowPanel>}
+
+		{section === 'projects' && <div class="project-grid route-panel">
+			{projects.map((project, index) => <WindowPanel filename={`project-${index + 1}.html`}>
+				<a class="project-card" href={project.href} target="_blank" rel="noreferrer">
+					<div class="project-card-image"><img src={project.image} alt={`${project.name} project preview`} loading="lazy" /></div>
+					<div class="project-card-content">
+						<div class="project-card-kicker"><span>{project.type}</span><span>{project.year}</span></div>
+						<h2 class="project-card-title">{project.name}</h2>
+						<p class="project-card-description">{project.description}</p>
+						<p class="project-card-stack">{project.stack}</p>
+					</div>
+				</a>
+			</WindowPanel>)}
+		</div>}
+
+		{section === 'toolkit' && <WindowPanel filename="toolkit-index.html">
+			<div class="toolkit-groups">{toolkitGroups.map((group) => <div class="toolkit-group"><p class="eyebrow">{group.label}</p><div>{group.tools.map((tool) => <span class="tool-chip">{tool}</span>)}</div></div>)}</div>
+		</WindowPanel>}
 	</section>
 </Layout>
